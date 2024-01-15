@@ -19,7 +19,7 @@ public class J1436 {
             if (start % 666 == 0) {
 
             } else {
-
+                break;
             }
         }
 
