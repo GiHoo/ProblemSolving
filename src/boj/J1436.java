@@ -13,13 +13,12 @@ public class J1436 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
 
-        N = N - 1;
+        int count = 1;
 
-        while (N > 0) {
-            if (start % 666 == 0) {
-
-            } else {
-                break;
+        while (count != N) {
+            start++;
+            if (String.valueOf(start).contains("666")) {
+                count++;
             }
         }
 
