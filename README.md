@@ -1,10 +1,10 @@
 # 🧩 ProblemSolving
 
-### 알고리즘 문제를 풀며 기록하는 저장소입니다 
+알고리즘 문제를 풀며 기록하는 저장소입니다 
 
 <br>
 
-## 문제 (플랫폼)
+## 📮 문제 (플랫폼)
 
 - [백준](https://www.acmicpc.net/)
 - [프로그래머스](https://school.programmers.co.kr/learn/challenges?order=recent&page=1)
@@ -14,14 +14,14 @@
 
 <br>
 
-## 템플릿
-
-### 커밋 메세지
+## ✅ 커밋 메세지
 ~~~
 solve: {플랫폼} {문제 번호} {문제 이름}
 ~~~
 
-### 문제 풀이 후 포함할 내용
+<br>
+
+## 📝 문제 풀이 후 포함할 내용
 ~~~ java
 /**
  * 문제 링크: https://www.acmicpc.net/problem/{문제 번호}
