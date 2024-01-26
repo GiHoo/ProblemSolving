@@ -1,4 +1,4 @@
-package book;
+package leetcode;
 
 public class TwoSum {
     public int twoSum(int[] arr, int target) {

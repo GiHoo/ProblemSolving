@@ -1,4 +1,4 @@
-package book;
+package leetcode;
 
 import java.util.ArrayList;
 import java.util.Collections;

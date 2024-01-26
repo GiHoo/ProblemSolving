@@ -1,4 +1,4 @@
-package book;
+package leetcode;
 
 public class ReserveString {
         public void reverseString(char[] s) {
