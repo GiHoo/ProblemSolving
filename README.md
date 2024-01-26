@@ -1,8 +1,8 @@
 # 🧩 ProblemSolving
 
-### 알고리즘 문제를 풀며 기록하는 저장소입니다
+### 알고리즘 문제를 풀며 기록하는 저장소입니다 
 
----
+<br>
 
 ## 문제 (플랫폼)
 
@@ -12,7 +12,7 @@
 
 [![Solved.ac Profile](http://mazassumnida.wtf/api/generate_badge?boj=gupeng_0428)](https://solved.ac/gupeng_0428)
 
----
+<br>
 
 ## 템플릿
 
