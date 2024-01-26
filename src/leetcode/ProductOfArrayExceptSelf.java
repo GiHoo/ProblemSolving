@@ -1,4 +1,4 @@
-package book;
+package leetcode;
 
 public class ProductOfArrayExceptSelf {
     public static int[] productExceptSelf(int[] nums) {
