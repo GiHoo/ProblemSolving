@@ -3,16 +3,13 @@ package boj;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class RobotCleaner {
 
     static int N, M;
     static int[][] rooms;
-    static int[][] moves = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}}; // 북 동 남 서
-    static Queue<Node> queue = new LinkedList<>();
+    static int[][] moves = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}}; // 북 0, 동 1, 남 2, 서 3
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -22,9 +19,9 @@ public class RobotCleaner {
         M = Integer.parseInt(st.nextToken());
 
         st = new StringTokenizer(br.readLine());
-        int startX = Integer.parseInt(st.nextToken());
-        int startY = Integer.parseInt(st.nextToken());
-        int startD = Integer.parseInt(st.nextToken());
+        int x = Integer.parseInt(st.nextToken());
+        int y = Integer.parseInt(st.nextToken());
+        int direction = Integer.parseInt(st.nextToken());
 
         rooms = new int[N][M];
         for (int i = 0; i < N; i++) {
@@ -34,88 +31,45 @@ public class RobotCleaner {
             }
         }
 
-        queue.add(new Node(startX, startY, startD));
+        int answer = cleanRoom(x, y, direction);
 
-        int answer = 0;
-        while (!queue.isEmpty()) {
-            Node node = queue.poll();
-            int x = node.x;
-            int y = node.y;
-            int direction = node.direction;
+        System.out.println(answer);
+    }
 
+    private static int cleanRoom(int x, int y, int direction) {
+        int count = 0;
+
+        while (true) {
             if (rooms[x][y] == 0) {
                 rooms[x][y] = 2;
-                System.out.println(answer + ". 현재 좌표 " + x + " " + y + " 방향 " + direction);
-                answer++;
-                if (checkIsOkToClean(x, y)) {
-                    while (true) {
-                        int[] newPoint = changePoint(x, y, direction);
-                        int nx = newPoint[0];
-                        int ny = newPoint[1];
-                        if (nx >= 0 && ny >= 0 && nx < rooms.length && ny < rooms[0].length
-                                && rooms[nx][ny] == 0) {
-                            queue.add(new Node(nx, ny, direction));
-                            break;
-                        } else {
-                            direction = changeDirection(direction);
-                        }
-                    }
-                } else {
-                    if (!canMoveToBack(x, y, direction)) break;
+                count++;
+            }
+
+            boolean cleaned = false;
+            for (int i = 0; i < 4; i++) {
+                direction = (direction + 3) % 4; // 반시계 방향으로 회전
+                int nx = x + moves[direction][0];
+                int ny = y + moves[direction][1];
+
+                if (nx >= 0 && nx < N && ny >= 0 && ny < M && rooms[nx][ny] == 0) {
+                    x = nx;
+                    y = ny;
+                    cleaned = true;
+                    break;
+                }
+            }
+
+            if (!cleaned) { // 모든 방향이 청소 or 벽인 경우
+                int backward = (direction + 2) % 4; // 후진
+                x += moves[backward][0];
+                y += moves[backward][1];
+
+                if (x < 0 || x >= N || y < 0 || y >= M || rooms[x][y] == 1) {
+                    break; // 후진 불가능 시 종료
                 }
             }
         }
 
-        System.out.print(answer);
-    }
-
-    private static boolean canMoveToBack(int x, int y, int direction) {
-        int nx = x + moves[direction][0];
-        int ny = y + moves[direction][1];
-
-        if (nx >= 0 && ny >= 0 && nx < rooms.length && ny < rooms[0].length && rooms[nx][ny] != 1) {
-            queue.add(new Node(nx, ny, direction));
-            return true;
-        }
-
-        return false;
-    }
-
-    private static int[] changePoint(int x, int y, int direction) {
-        return new int[]{x + moves[direction][0], y + moves[direction][1]};
-    }
-
-    private static int changeDirection(int direction) {
-        return (direction + 3) % 4;
-    }
-
-    private static boolean checkIsOkToClean(int x, int y) {
-        boolean toClean = false;
-
-        for (int i = 0; i < moves.length; i++) {
-            int nx = x + moves[i][0];
-            int ny = y + moves[i][1];
-
-            if (nx >= 0 && ny >= 0 && nx < rooms.length && ny < rooms[0].length
-                    && rooms[nx][ny] == 0) {
-                toClean = true;
-                break;
-            }
-        }
-
-        return toClean;
-    }
-
-    static class Node {
-
-        int x;
-        int y;
-        int direction;
-
-        public Node(int x, int y, int direction) {
-            this.x = x;
-            this.y = y;
-            this.direction = direction;
-        }
+        return count;
     }
 }
