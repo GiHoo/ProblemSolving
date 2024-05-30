@@ -10,11 +10,8 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 /**
- * 문제 링크: https://www.acmicpc.net/problem/13335
- * 메모리: 15688 KB
- * 시간: 156 ms
- * 시간 복잡도: O(truck_count * bridge_length^2)
- * 공간 복잡도: O(N)
+ * 문제 링크: https://www.acmicpc.net/problem/13335 메모리: 15688 KB 시간: 156 ms 시간 복잡도: O(truck_count *
+ * bridge_length^2) 공간 복잡도: O(N)
  */
 
 /**
@@ -26,22 +23,19 @@ import java.util.StringTokenizer;
 
 public class 트럭 {
 
-    private static int truck_count;
-    private static int bridge_length;
-    private static int bridge_weight;
-    private static int time = 0;
-    private static List<Truck> truckList = new ArrayList<>();
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        truck_count = Integer.parseInt(st.nextToken());
-        bridge_length = Integer.parseInt(st.nextToken());
-        bridge_weight = Integer.parseInt(st.nextToken());
+        int truckCount = Integer.parseInt(st.nextToken());
+        int bridgeLength = Integer.parseInt(st.nextToken());
+        int bridgeWeight = Integer.parseInt(st.nextToken());
+        int time = 0;
+
+        List<Truck> truckList = new ArrayList<>();
 
         st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < truck_count; i++) {
+        for (int i = 0; i < truckCount; i++) {
             int weight = Integer.parseInt(st.nextToken());
             truckList.add(new Truck(0, weight));
         }
@@ -53,18 +47,18 @@ public class 트럭 {
                 for (Truck truck : deque) {
                     truck.goForward();
 
-                    if (truck.distance == bridge_length) {
+                    if (truck.distance == bridgeLength) {
                         deque.remove(truck);
-                        bridge_weight += truck.weight;
+                        bridgeWeight += truck.weight;
                     }
                 }
             }
 
-            if (!truckList.isEmpty() && truckList.get(0).weight <= bridge_weight) {
+            if (!truckList.isEmpty() && truckList.get(0).weight <= bridgeWeight) {
                 Truck truck = truckList.get(0);
 
                 deque.addLast(truck);
-                bridge_weight -= truck.weight;
+                bridgeWeight -= truck.weight;
                 truckList.remove(truck);
             }
 
