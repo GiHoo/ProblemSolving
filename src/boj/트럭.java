@@ -10,8 +10,11 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 /**
- * 문제 링크: https://www.acmicpc.net/problem/13335 메모리: 15688 KB 시간: 156 ms 시간 복잡도: O(truck_count *
- * bridge_length^2) 공간 복잡도: O(N)
+ * 문제 링크: https://www.acmicpc.net/problem/13335
+ * 메모리: 15688 KB
+ * 시간: 156 ms
+ * 시간 복잡도: O(truck_count * bridge_length^2)
+ * 공간 복잡도: O(N)
  */
 
 /**
