@@ -8,7 +8,6 @@
 
 - [백준](https://www.acmicpc.net/)
 - [프로그래머스](https://school.programmers.co.kr/learn/challenges?order=recent&page=1)
-- [리트코드](https://leetcode.com/problemset/)
 
 [![Solved.ac Profile](http://mazassumnida.wtf/api/generate_badge?boj=gupeng_0428)](https://solved.ac/gupeng_0428)
 
