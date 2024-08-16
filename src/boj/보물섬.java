@@ -9,11 +9,10 @@ import java.util.StringTokenizer;
 
 public class 보물섬 {
 
-    static int[] dx = {0, 0, 1, -1};
-    static int[] dy = {1, -1, 0, 0};
     static int n, m;
     static char[][] map;
     static boolean[][] visited;
+    static int[][] move = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -27,47 +26,58 @@ public class 보물섬 {
             map[i] = br.readLine().toCharArray();
         }
 
-        int maxDistance = 0;
+        int answer = 0;
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 if (map[i][j] == 'L') {
                     visited = new boolean[n][m];
-                    maxDistance = Math.max(maxDistance, bfs(i, j));
+                    answer = Math.max(answer, bfs(i, j));
                 }
             }
         }
 
-        System.out.println(maxDistance);
+        System.out.println(answer);
     }
 
     static int bfs(int x, int y) {
-        Queue<int[]> queue = new LinkedList<>();
-        queue.add(new int[] {x, y, 0}); // {현재 x 좌표, 현재 y 좌표, 이동 거리}
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(new Node(x, y, 0));
         visited[x][y] = true;
         int maxDist = 0;
 
         while (!queue.isEmpty()) {
-            int[] cur = queue.poll();
-            int curX = cur[0];
-            int curY = cur[1];
-            int curDist = cur[2];
+            Node currNode = queue.poll();
+            int currX = currNode.x;
+            int currY = currNode.y;
+            int currDist = currNode.moveDistance;
 
-            maxDist = Math.max(maxDist, curDist);
+            maxDist = Math.max(maxDist, currDist);
 
-            // 4방향 탐색
             for (int i = 0; i < 4; i++) {
-                int nx = curX + dx[i];
-                int ny = curY + dy[i];
+                int nx = currX + move[i][0];
+                int ny = currY + move[i][1];
 
                 if (nx >= 0 && ny >= 0 && nx < n && ny < m && !visited[nx][ny] && map[nx][ny] == 'L') {
                     visited[nx][ny] = true;
-                    queue.add(new int[] {nx, ny, curDist + 1});
+                    queue.add(new Node(nx, ny, currDist + 1));
                 }
             }
         }
 
         return maxDist;
+    }
+
+    static class Node {
+        int x;
+        int y;
+        int moveDistance;
+
+        public Node(int x, int y, int moveDistance) {
+            this.x = x;
+            this.y = y;
+            this.moveDistance = moveDistance;
+        }
     }
 }
 
