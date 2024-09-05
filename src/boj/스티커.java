@@ -29,6 +29,7 @@ public class 스티커 {
 
             if (N == 1) {
                 System.out.println(Math.max(scores[0][0], scores[1][0]));
+
                 continue;
             }
 
