@@ -8,18 +8,22 @@ public class 실패율 {
     public int[] solution(int N, int[] stages) {
         Map<Integer, Double> failures = new HashMap<>();
 
-        int length = stages.length;
+        int[] current = new int[N + 2];
+        for (int i = 0; i < stages.length; i++) {
+            current[stages[i]]++;
+        }
 
-        for (int i = 0; i < length; i++) {
-            double failure;
+        double totalChallenger = stages.length;
 
-            if (i == 0) {
-                failure = (double) stages[i] / length;
+        for (int i = 1; i <= N; i++) {
+            int currentPosition = current[i];
+
+            if (currentPosition == 0) {
+                failures.put(i, 0.);
             } else {
-                failure = (double) stages[i] / (length - stages[i - 1]);
+                failures.put(i, currentPosition / totalChallenger);
+                totalChallenger -= currentPosition;
             }
-
-            failures.put(i, failure);
         }
 
         return failures.entrySet().stream()
