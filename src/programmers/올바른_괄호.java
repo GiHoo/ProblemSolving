@@ -1,41 +1,28 @@
 package programmers;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class 올바른_괄호 {
 
-    private static final char OPEN = '(';
-    private static final char CLOSE = ')';
-
     boolean solution(String s) {
-        boolean answer = true;
+        Deque<Character> deque = new ArrayDeque<>();
+        for (int i = 0; i < s.length(); i++) {
+            char tmp = s.charAt(i);
 
-        char[] chs = s.toCharArray();
-        Stack<Character> stack = new Stack<>();
-
-        for (int i = 0; i < chs.length; i++) {
-            if (stack.isEmpty()) {
-                if (chs[i] == OPEN) {
-                    stack.push(chs[i]);
-                } else {
-                    answer = false;
-                    break;
-                }
+            if (deque.isEmpty() || tmp == '(') {
+                deque.add(tmp);
             } else {
-                if (chs[i] == OPEN) {
-                    stack.push(chs[i]);
+                if (deque.peek() == '(') {
+                    deque.poll();
                 } else {
-                    if (stack.peek() == OPEN) {
-                        stack.pop();
-                    }
+                    return false;
                 }
             }
         }
 
-        if (!stack.isEmpty()) {
-            answer = false;
-        }
+        if (!deque.isEmpty()) return false;
 
-        return answer;
+        return true;
     }
 }
