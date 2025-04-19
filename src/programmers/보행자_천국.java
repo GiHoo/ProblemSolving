@@ -1,51 +1,66 @@
 package programmers;
 
 public class 보행자_천국 {
+
     int MOD = 20170805;
-    static int answer = 0;
-    static final int[][] mv = {{1, 0}, {0, 1}}; // 아래 0, 오른쪽 1
 
     public int solution(int m, int n, int[][] cityMap) {
-        dfs(0, 0, 0, m, n, cityMap);
+        final int GO = 0;
+        final int WALL = 1;
+        final int STRAIGHT = 2;
 
-        return answer % MOD;
-    }
+        final int FROM_UP = 0;
+        final int FROM_LEFT = 1;
 
-    private void dfs(int currRow, int currCol, int direction, int m, int n, int[][] cityMap) {
-        System.out.println();
+        // dp 설정 왼쪽에서 올 수 있는 것과 위에서 올 수 있는 것으로 나눔
+        int[][][] dp = new int[m][n][2];
 
-
-        if (currRow == m - 1 && currCol == n - 1) {
-            answer++;
-            return;
+        for (int row = 0; row < m; row++) {
+            if (cityMap[row][0] == WALL) {
+                break;
+            } else {
+                dp[row][0][FROM_UP] = 1;
+            }
         }
 
-        // 현재 위치가 cityMap에서 어떤 상태인지 확인해야 함
-        // 0이면 아래, 오른쪽 자유롭게 이동 가능
-        // 1인 경우는 이동하지 않도록 return
-        // 2면 이전 방향으로만 따라 가야 함
+        for (int col = 0; col < n; col++) {
+            if (cityMap[0][col] == WALL) {
+                break;
+            } else {
+                dp[0][col][FROM_LEFT] = 1;
+            }
+        }
 
-        int currState = cityMap[currRow][currCol];
-
-        if (currState == 0) {
-            // 자유롭게 이동
-            for (int i = 0; i < mv.length; i++) {
-                if (checkBoundary(currRow + mv[i][0], currCol + mv[i][1], m, n)) {
-                    dfs(currRow + mv[i][0], currCol + mv[i][1], i, m, n, cityMap);
+        for (int row = 1; row < m; row++) {
+            for (int col = 1; col < n; col++) {
+                if (cityMap[row][col] == WALL) {
+                    continue;
                 }
-            }
-        } else if (currState == 1) {
-            return;
-        } else {
-            if (checkBoundary(currRow + mv[direction][0], currCol + mv[direction][1], m, n)) {
-                dfs(currRow + mv[direction][0], currCol + mv[direction][1], direction, m, n,
-                        cityMap);
+
+                int up = dp[row - 1][col][FROM_UP];
+                if (cityMap[row - 1][col] == GO) {
+                    up = (up + dp[row - 1][col][FROM_LEFT]) % MOD;
+                }
+
+                int left = dp[row][col - 1][FROM_LEFT];
+                if (cityMap[row][col - 1] == GO) {
+                    left = (left + dp[row][col - 1][FROM_UP]) % MOD;
+                }
+
+
+                dp[row][col][FROM_UP] = up;
+                dp[row][col][FROM_LEFT] = left;
             }
         }
-    }
 
-    private static boolean checkBoundary(int row, int col, int m, int n) {
-        return row >= 0 && col >= 0 && row < m && col < n;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print(dp[i][j][0] + " " + dp[i][j][1] + "  ");
+            }
+            System.out.println();
+        }
+
+        return (dp[m - 1][n - 1][FROM_LEFT] + dp[m - 1][n - 1][FROM_UP]) % MOD;
     }
 }
 
@@ -61,7 +76,6 @@ m * n 크기 cityMap
 2: 좌회전, 우회전 금지(직진만 가능)
 
 최단거리가 아니니까, DFS로 모든 경우의 수 구하고 MOD로 나머지 리턴
-
 아래, 오른쪽으로만 움직이니까 방문 배열을 확인할 필요 없음
 
 일반적인 bfs 문제가 아님, dp로 풀어야 하는 문제
